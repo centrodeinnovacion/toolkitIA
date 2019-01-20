@@ -24,7 +24,6 @@
 			        Recuerda...</strong><br>Puedes descartar las preguntas haciendo click en el checkbox.
 			      </v-alert>
 			    </div>
-					<!-- <pre>{{this.$store.state.app.model.registros}}</pre> -->
 					<v-layout row wrap>
 						<v-flex column xs12 sm4 md4>
 							<v-card class="elevation-7" height="300px" width="100%" v-if="this.$store.state.app.model.registros.length !== 0">
@@ -45,8 +44,8 @@
 									<v-list-tile v-for="(val, index) in checkQuestions" :key="index">
 										<div v-if="val.preguntasGeneradas !== undefined" style="inline: block">
 											<!-- <v-list-tile-title> -->
-												<v-btn icon v-if="val.preguntasGeneradas.seleccionado !== true" @click="findValue(index)"><v-icon>check_box_outline_blank</v-icon></v-btn>
-												<v-btn icon v-else @click="findValue(index)"><v-icon color="accent">check_box</v-icon></v-btn>
+												<v-btn icon v-if="val.preguntasGeneradas.seleccionado !== true" @click="findValue(index, val)"><v-icon>check_box_outline_blank</v-icon></v-btn>
+												<v-btn icon v-else @click="findValue(index, val)"><v-icon color="accent">check_box</v-icon></v-btn>
 												{{val.preguntasGeneradas.pregunta}}
 											<!-- </v-list-tile-title> -->
 										</div>
@@ -89,8 +88,10 @@ export default {
       EventBus.$emit('loading', {loading: true})
       this.$store.dispatch('app/relationedWords', url)
     },
-    findValue (index) {
-      this.$store.commit('app/addWordToRegister', { val: this.index, index: index })
+    findValue (index, q) {
+      let a = this.$store.state.app.model.registros.indexOf(q)
+      // console.log(a)
+      this.$store.commit('app/addWordToRegister', { val: this.index, index: index, q: a })
     },
     next (to) {
       let el = this.$store.state.app.application.usingCM.steps['P'].data.find(el => el.to === to)
@@ -106,7 +107,8 @@ export default {
   computed: {
     selectQuestions () {
       let array = []
-      this.$store.state.app.model.contexto.palabrasRelevantes.map(el => {
+      // console.log(this.$store.state.app.model)
+      this.$store.state.app.model.contexto.palabrasClave.map(el => {
         let e = {active: null, val: el}
         if (el === this.wordR) {
           e.active = true
@@ -120,11 +122,14 @@ export default {
     checkQuestions () {
       let array = []
       this.$store.state.app.model.registros.map(register => {
-        if (register.preguntasGeneradas) {
-          if (register.preguntasGeneradas.palabrasRelevantes.indexOf(this.index) !== -1) {
-            register.preguntasGeneradas.seleccionado = true
-          } else {
-            register.preguntasGeneradas.seleccionado = false
+        if (register.preguntasGeneradas !== undefined) {
+          // console.log(register.preguntasGeneradas)
+          if (register.preguntasGeneradas.palabrasRelevantes !== undefined) {
+            if (register.preguntasGeneradas.palabrasRelevantes.indexOf(this.index) !== -1) {
+              register.preguntasGeneradas.seleccionado = true
+            } else {
+              register.preguntasGeneradas.seleccionado = false
+            }
           }
           array.push(register)
         }

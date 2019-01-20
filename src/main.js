@@ -54,7 +54,7 @@ const config = {
 }
 // 'https://toolkit-lab.appspot.com'
 // 'https://carinag-225014.appspot.com'
-const url = 'https://toolkit-lab.appspot.com'
+const url = 'https://carinag-225014.appspot.com'
 
 Vue.config.productionTip = false
 

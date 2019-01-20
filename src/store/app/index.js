@@ -324,11 +324,18 @@ const mutations = {
     state.model.registros = array
   },
   addWordToRegister: (state, data) => {
-    let index = state.model.registros[data.index].preguntasGeneradas.palabrasRelevantes.indexOf(data.val)
-    if (index === -1) {
-      state.model.registros[data.index].preguntasGeneradas.palabrasRelevantes.push(data.val)
+    // console.log(data)
+    if (state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes !== undefined) {
+      let index = state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes.indexOf(data.val)
+      // state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes.push(data.val)
+      if (index === -1) {
+        state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes.push(data.val)
+      } else {
+        state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes.splice(index, 1)
+      }
     } else {
-      state.model.registros[data.index].preguntasGeneradas.palabrasRelevantes.splice(index, 1)
+      state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes = []
+      state.model.registros[data.q].preguntasGeneradas.palabrasRelevantes.push(data.val)
     }
   },
   retrieveCM: (state, data) => {

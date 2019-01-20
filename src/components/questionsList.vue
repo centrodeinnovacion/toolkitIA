@@ -22,7 +22,7 @@
 										<v-list two-line subheader v-if="view === true">
 											<v-list-tile v-for="(val, index) in questions" :key="index" @click="obj = val">
 											  <v-list-tile-content style="cursor: pointer">
-										    	<p>{{val.questions}}</p>
+										    	<p @click="obj2 = val">{{val.questions}}</p>
 							          </v-list-tile-content>
 											</v-list-tile>
 										</v-list>
@@ -46,7 +46,7 @@
 											<h6 class="mb-0" style="font-size: 18px">Pregunta</h6>
 											<p>{{obj2.questions}}</p>
 											<h6 class="mb-0" style="font-size: 18px">Respuesta</h6>
-											<p>{{obj2.respuesta}}</p>
+											<p>{{obj2.respuesta[0]}}</p>
 										</div>
 									</v-flex>
 								</v-layout>

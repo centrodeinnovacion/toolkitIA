@@ -84,6 +84,7 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
+      <pre v-if="child !== ''">{{this.$store.state.app.model.relaciones[this.child]}}</pre>
 		</v-layout>
 		<!-- <div class="text-xs-center pa-5">
 			<v-btn @click="sendWords()" color="black" class="accent--text">Enviar Relaciones</v-btn>
@@ -189,6 +190,10 @@ export default {
         array.push(el)
       })
       return array
+    },
+    objReturn () {
+      let a = this.$store.state.app.model.relaciones[this.child]
+      return a[this.category]
     }
   },
   components: { EventBus }
